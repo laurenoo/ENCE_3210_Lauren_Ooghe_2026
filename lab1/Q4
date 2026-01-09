@@ -1,0 +1,31 @@
+#include <stdio.h>
+#include <math.h>
+
+// global variable
+# define ARRAY_SIZE 10
+
+char myArray[ARRAY_SIZE] = {'T', 'R', 'B', 'H', 'G', 'B', 'B', 'S', 'R', 'G'};
+
+int main(){
+    int counterR = 0;
+    int counterG = 0;
+    int counterB = 0;
+    for (int i = 0; i <= ARRAY_SIZE; i++) {
+        if (myArray[i] == 'R'){
+            
+            counterR++;
+        } else if (myArray[i] == 'G'){
+            counterG++;
+        } else if (myArray[i] == 'B') {
+            counterB++;
+        }
+    }
+    
+    printf("Number of R's: %d\n", counterR);
+    printf("Number of G's: %d\n", counterG);
+    printf("Number of B's: %d\n", counterB);
+    
+    
+    return 0;
+    
+}
