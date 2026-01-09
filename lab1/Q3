@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <math.h>
+
+// global variable
+# define ARRAY_SIZE 51
+
+
+// Random numbers added to array
+int listNum[ARRAY_SIZE] = { 12, 7, 88, 42, 100, -3, 18, 18, 0, 96,
+  73, 5, 61, 2, 44, 88, 21, 10, 11, 90,
+  35, 36, 37, 38, 39, 40, 41, 43, 45, 46,
+  47, 48, 49, 50, 51, 52, 53, 54, 55, 57,
+  58, 59, 60, 62, 63, 64, 65, 66, 67, 68
+};
+
+int main() {
+ 
+  int max1 = 0;
+  int max2 = 0;
+
+  for (int i = 0; i < ARRAY_SIZE; i++) {
+    int x = listNum[i];
+
+    if (x > max1) {
+      max2 = max1;
+      max1 = x;
+    } else if (x < max1 && x > max2) {
+      max2 = x;
+    }
+  
+  }
+  printf("Second highest integer: %3d", max2);
+}
