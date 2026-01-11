@@ -1,22 +1,30 @@
+// C code using C compiler
+// Arduino does not have enough memory for 511 numbers. Needs 24 bits.
 
 #include <stdio.h>
 #define ARRAY_SIZE 512
 
-int myArray[ARRAY_SIZE] = {};
+// Create global variables
+int myArray[ARRAY_SIZE] = {}; // create array with size 512
+
+
+// Function that doubles the square of a number
 int twiceSquare(int a){
     
     return 2 * a * a;
 }
+
+
 int main()
 {
-    int results[ARRAY_SIZE] = {};
+    int results[ARRAY_SIZE] = {}; // create array to store values in
     
-    for (int i=0; i < ARRAY_SIZE; i++) {
-        results[i] = twiceSquare(i);
+    for (int i=0; i < ARRAY_SIZE; i++) { // loop 511 times
+        results[i] = twiceSquare(i); // save returned value of function in array
         
     }
     
-    for (int i=0; i < ARRAY_SIZE; i++) {
+    for (int i=0; i < ARRAY_SIZE; i++) { // print each iteration results
         printf("x = %d, 2*x^2 = %d\n", i, results[i]);
     }
     
