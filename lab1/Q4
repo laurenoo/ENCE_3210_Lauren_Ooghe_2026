@@ -1,29 +1,71 @@
-#include <stdio.h>
+// Lab 1 - Q4 - Lauren Ooghe
+// Find the R, G, and B letters in an array.
+// If the letters are detected, the red, green, and blue colors LEDs will turn on, respectively.
+// Should count the number of occurrences of each letter in the array.
+
 #include <math.h>
 
-// global variable
+// global variable size of array
 # define ARRAY_SIZE 10
 
+// set pins to pin number on arduino
+ int r_LED = 8;
+ int g_LED = 9;
+ int b_LED = 10;
+
+// create array of characters
 char myArray[ARRAY_SIZE] = {'T', 'R', 'B', 'H', 'G', 'B', 'B', 'S', 'R', 'G'};
 
-int main(){
+void setup(){
+
+  Serial.begin(9600);  // begin serial monitor
+
+  // set pins to outputs
+  pinMode(r_LED, OUTPUT);
+  pinMode(g_LED, OUTPUT);
+  pinMode(b_LED, OUTPUT);
+
+  // create counter for each occurrance of R, G, and B.
     int counterR = 0;
     int counterG = 0;
     int counterB = 0;
+
+    // loop through array to find R, G, and B elements
     for (int i = 0; i <= ARRAY_SIZE; i++) {
-        if (myArray[i] == 'R'){
-            
-            counterR++;
-        } else if (myArray[i] == 'G'){
-            counterG++;
+        if (myArray[i] == 'R'){   // if the element at index i is R
+            counterR++;           // add to counter R
+        } else if (myArray[i] == 'G'){    // else if the element is G
+            counterG++;                 // add 1 to counter G
         } else if (myArray[i] == 'B') {
             counterB++;
         }
     }
     
-    printf("Number of R's: %d\n", counterR);
-    printf("Number of G's: %d\n", counterG);
-    printf("Number of B's: %d\n", counterB);
+    // if any R, G, or B is noticed, write respective pins to high, turning on LEDs
+    if (counterR > 0) {
+      digitalWrite(r_LED, HIGH);
+    }
+    if (counterG > 0) {
+      digitalWrite(g_LED, HIGH);
+    }
+    if (counterG > 0) {
+      digitalWrite(g_LED, HIGH);
+    }
+
+
+    // print results of counters
+    Serial.print("Number of R's: ");
+    Serial.print(counterR);
+    Serial.print("  Number of G's: ");
+    Serial.print(counterG);
+    Serial.print("  Number of B's: ");
+    Serial.println(counterB);
+
+  
+}
+ void loop() {
+
+ }
     
     
     return 0;
