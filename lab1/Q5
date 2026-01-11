@@ -1,0 +1,61 @@
+// Lab 1 - Q5 - Lauren Ooghe
+// Detect a specified pattern with three entries in an array. The pattern is saved in another array.
+// When the pattern is detected, the green color LED will turn on.
+// If the pattern is not detected, the red color LED will turn on at the end of the program.
+// Your program should count the number of occurrences of the pattern.
+
+#define ARRAY_SIZE 12
+#define pattern_size 3
+
+// pin numbers of LEDs
+int G_LED = 8;
+int R_LED = 9;
+
+int pattCount = 0;      // create counter for occurrences
+int pattern[] = {1, 3, 3};    // specified pattern array
+int data[ARRAY_SIZE] = {1, 4, 5, 1, 3, 3, 4, 2, 2, 1, 3, 3};    // array to test
+
+
+void setup() {
+  Serial.begin(9600);     // begin serial monitoring
+   pinMode(G_LED, OUTPUT);    // set pins to output mode
+   pinMode(R_LED, OUTPUT);
+  
+  // nested for loop needed to compare two different elements in array for pattern recognition
+  for (int i = 0; i <= ARRAY_SIZE - pattern_size; i++) { // i = 9 so that it can iterate in threes
+    int match = 1;    // create variable to compare
+
+    for (int j = 0; j < pattern_size; j++) {  // nested for loop to evaluate the next number in data with the previous in the pattern
+      if (data[i+j] != pattern[j]) { // if the number at i+j in the data array does not match j in pattern array
+        match = 0;                    // match set to 0
+        break;                      // break from this for loop to begin the process again at the previous for loop
+      }
+    }
+
+    if (match == 1) {   // if the match occurs
+      pattCount++;      // add to counter
+    }
+
+  }
+
+  // turn green LED on if match occurs
+ if (pattCount > 0) {
+    digitalWrite(G_LED, HIGH);   // if pattern is found, green LED on
+    digitalWrite(R_LED, LOW);
+  // turn red LED on if no match occurs
+ } else {
+    digitalWrite(G_LED, LOW);   // if pattern is not found, red LED on
+    digitalWrite(R_LED, HIGH);
+ }
+
+// print number of times the pattern occurred
+  Serial.print("Pattern occurred: ");
+  Serial.print(pattCount);
+  Serial.print(" times. ");
+  
+}
+
+void loop() {
+  
+
+}
