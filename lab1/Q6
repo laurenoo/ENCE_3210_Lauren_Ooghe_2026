@@ -1,0 +1,52 @@
+// Lab 1 - Q5 - Lauren Ooghe 
+// When the button is pressed, turn on the red, green, and blue color LEDs with the following order:
+// R – RG – RGB – GB – B – RB repeated until the button is pressed again.
+
+int R_LED = 9;
+int G_LED = 10;
+int B_LED = 11;
+int button = 4;
+
+
+void setup() {
+
+pinMode(R_LED, OUTPUT);
+pinMode(G_LED, OUTPUT);
+pinMode(B_LED, OUTPUT);
+pinMode(button, INPUT);
+
+
+}
+
+void loop() {
+bool livebutton = digitalRead(button);
+
+if (livebutton == HIGH) {
+  digitalWrite(R_LED, HIGH);
+
+  delay(50);
+
+  digitalWrite(G_LED, HIGH);
+
+  delay(50);
+
+  digitalWrite(B_LED, HIGH);
+
+  delay(50);
+
+  digitalWrite(R_LED, LOW);
+
+  delay(50);
+
+  digitalWrite(G_LED, LOW);
+
+  delay(50);
+
+  digitalWrite(R_LED, HIGH);
+
+  delay(50);
+}
+else {
+  allOff();
+}
+}
