@@ -2,6 +2,7 @@
 // When the button is pressed, turn on the red, green, and blue color LEDs with the following order:
 // R – RG – RGB – GB – B – RB repeated until the button is pressed again.
 
+// assign pins to LEDs
 int R_LED = 9;
 int G_LED = 10;
 int B_LED = 11;
@@ -9,7 +10,7 @@ int button = 4;
 
 
 void setup() {
-
+// assign pins as INPUT or OUTPUT
 pinMode(R_LED, OUTPUT);
 pinMode(G_LED, OUTPUT);
 pinMode(B_LED, OUTPUT);
@@ -19,34 +20,35 @@ pinMode(button, INPUT);
 }
 
 void loop() {
-bool livebutton = digitalRead(button);
+bool livebutton = digitalRead(button);  // if the button is pressed
 
-if (livebutton == HIGH) {
-  digitalWrite(R_LED, HIGH);
+// begin sequence of LEDs
+if (livebutton == HIGH) {    
+  digitalWrite(R_LED, HIGH);    // Red on
 
-  delay(50);
+  delay(50);   // delay 50ms
 
-  digitalWrite(G_LED, HIGH);
-
-  delay(50);
-
-  digitalWrite(B_LED, HIGH);
+  digitalWrite(G_LED, HIGH);    // Green on
 
   delay(50);
 
-  digitalWrite(R_LED, LOW);
+  digitalWrite(B_LED, HIGH);    // Blue on
+
+  delay(50);          
+
+  digitalWrite(R_LED, LOW);     // Red off
 
   delay(50);
 
-  digitalWrite(G_LED, LOW);
+  digitalWrite(G_LED, LOW);     // Green off
 
   delay(50);
 
-  digitalWrite(R_LED, HIGH);
+  digitalWrite(R_LED, HIGH);    // Red on
 
   delay(50);
 }
 else {
-  allOff();
+  allOff();      // if button is not push, all LEDs off
 }
 }
