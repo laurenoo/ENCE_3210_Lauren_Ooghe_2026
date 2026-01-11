@@ -1,0 +1,40 @@
+// Lab 1 - Q3 - Lauren Ooghe 
+// You have to search for the second maximum of a given integer array with 50 elements.
+// The array is saved as a global variable in the program.
+// Write the results to the memory location just after the array ends.
+
+# define ARRAY_SIZE 51
+
+// create global array of 50 random numbers
+int listNum[ARRAY_SIZE] = { 12, 7, 88, 42, 89, -3, 18, 18, 0, 56,
+  73, 5, 61, 2, 44, 88, 21, 10, 11, 90,
+  35, 36, 37, 38, 39, 40, 41, 43, 45, 46,
+  47, 48, 49, 50, 51, 52, 53, 54, 55, 57,
+  58, 59, 60, 62, 63, 64, 65, 66, 67, 68
+};
+
+void setup() {
+  Serial.begin(9600);  // being serial monitor
+  int max1 = 0;     // create max and 2nd max value variables to store and compare
+  int max2 = 0;
+
+// loop to iterate through array
+  for (int i = 0; i < ARRAY_SIZE; i++) { 
+    int x = listNum[i];   // create variable to compare value at every index of the array
+
+    if (x > max1) {   // if the value is greater than the current value of max1
+      max2 = max1;    // set max2 and max1 equal
+      max1 = x;       // set max1 to x to continue comparison 
+    } else if (x < max1 && x > max2) {    // if the current x value is less than the max1 AND greater than max2
+      max2 = x;   // set max2 equal to that value
+    }
+  
+  }
+  // print results
+  Serial.println("The second maximum number is: ");
+  Serial.println(max2);
+}
+
+void loop() {
+
+}
