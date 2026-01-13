@@ -1,4 +1,4 @@
-// Lab 1 - Q5 - Lauren Ooghe 
+// Lab 1 - Q6 - Lauren Ooghe 
 // When the button is pressed, turn on the red, green, and blue color LEDs with the following order:
 // R – RG – RGB – GB – B – RB repeated until the button is pressed again.
 
