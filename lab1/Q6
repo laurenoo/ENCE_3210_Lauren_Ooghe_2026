@@ -13,7 +13,7 @@ int button = 2;
 
 bool running = false;  // state to compare button value HIGH or LOW
 bool buttonState = HIGH;    // set button to HIGH initially
-unsigned long toggleTime = 0;    // used for debouncer in interrupt sequence
+unsigned long toggleTime = 0;    // used with debouncer in interrupt sequence
 
 
 void setup() {
