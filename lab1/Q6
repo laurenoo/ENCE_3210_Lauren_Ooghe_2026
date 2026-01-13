@@ -2,10 +2,10 @@
 // When the button is pressed, turn on the red, green, and blue color LEDs with the following order:
 // R – RG – RGB – GB – B – RB repeated until the button is pressed again.
 
-// assign pins to LEDs
+// add delay value
 #define DELAY_TIME 500
 
-// assign pin values
+// assign pin values as global variables
 int R_LED = 5;
 int G_LED = 4;
 int B_LED = 11;
