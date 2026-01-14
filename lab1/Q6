@@ -2,18 +2,20 @@
 // When the button is pressed, turn on the red, green, and blue color LEDs with the following order:
 // R – RG – RGB – GB – B – RB repeated until the button is pressed again.
 
-// add delay value
+// define global variables
 #define DELAY_TIME 500
 
-// assign pin values as global variables
+
+// assign pins to LEDs
 int R_LED = 5;
 int G_LED = 4;
 int B_LED = 11;
-int button = 2;
+int button = 3;
 
-bool running = false;  // state to compare button value HIGH or LOW
-bool buttonState = HIGH;    // set button to HIGH initially
-unsigned long toggleTime = 0;    // used with debouncer in interrupt sequence
+
+int state = 0;    // intialize state for switch statement
+bool running = false;    // variable if program is running based on button push
+bool buttonState = HIGH;  // state of button
 
 
 void setup() {
@@ -21,78 +23,75 @@ void setup() {
 pinMode(R_LED, OUTPUT);
 pinMode(G_LED, OUTPUT);
 pinMode(B_LED, OUTPUT);
-pinMode(button, INPUT_PULLUP);
+pinMode(button, INPUT_PULLUP);  // input_pullup, initialized at HIGH
 
-// create interrupt to button pin so that the program will stop
-// when the button is pressed while in the middle of running the loop code
-attachInterrupt(digitalPinToInterrupt(button), buttonPress, CHANGE);
 
 }
 
 void loop() {
-  bool buttonRead = digitalRead(button);    // read button status
-    // detect button press
-  if (buttonState == HIGH && buttonRead == LOW) {    // if the button state variable is HIGH AND the button pin is LOW
-    running = !running;     // change toggle state
-    delay(500);             // delay
+  bool buttonRead = digitalRead(button);    // read button state, LOW if pressed
+
+  if (buttonState == HIGH && buttonRead == LOW) {  // toggle statement
+    running = !running;     // toggle start/stop, switch between true and false
+    delay(200);             // delay for debounce
   }
-  buttonState = buttonRead;    // set the button state equal to button pin value so that when button is pressed, the program will run
+  buttonState = buttonRead;    // set button state to button read so that running toggles appropriately
+ 
+  // initiate all LEDs off 
+  digitalWrite(R_LED, LOW);
+  digitalWrite(G_LED, LOW);
+  digitalWrite(B_LED, LOW);
 
+// if program running is true
+  if (running){  
+// use case statements to iterate through LED sequence
+    switch (state) {
 
-// if the button is pressed and running is true, run through the loop to turn LEDs on and off sequence
-  if (running){
-    digitalWrite(R_LED, HIGH);
-    digitalWrite(G_LED, LOW);
-    digitalWrite(B_LED, LOW);
+     case 0:   // red ON
+        digitalWrite(R_LED, HIGH);
+        digitalWrite(G_LED, LOW);
+        digitalWrite(B_LED, LOW);
+        break;
 
-    delay(DELAY_TIME);
+      case 1:   // red green ON
+        digitalWrite(R_LED, HIGH);
+        digitalWrite(G_LED, HIGH);
+        digitalWrite(B_LED, LOW);
+        break;
 
-    digitalWrite(R_LED, HIGH);
-    digitalWrite(G_LED, HIGH);
-    digitalWrite(B_LED, LOW);
+      case 2:   // red green blue ON
+        digitalWrite(R_LED, HIGH);
+        digitalWrite(G_LED, HIGH);
+        digitalWrite(B_LED, HIGH);
+        break;
 
-    delay(DELAY_TIME);
+      case 3:   // green blue ON
+        digitalWrite(R_LED, LOW);
+        digitalWrite(G_LED, HIGH);
+        digitalWrite(B_LED, HIGH);
+        break;
 
-    digitalWrite(R_LED, HIGH);
-    digitalWrite(G_LED, HIGH);
-    digitalWrite(B_LED, HIGH);
+      case 4:   // blue ON
+        digitalWrite(R_LED, LOW);
+        digitalWrite(G_LED, LOW);
+        digitalWrite(B_LED, HIGH);
+        break;
 
-    delay(DELAY_TIME);
-
-    digitalWrite(R_LED, LOW);
-    digitalWrite(G_LED, HIGH);
-    digitalWrite(B_LED, HIGH);
-
-    delay(DELAY_TIME);
-
-    digitalWrite(R_LED, LOW);
-    digitalWrite(G_LED, LOW);
-    digitalWrite(B_LED, HIGH);
-
-    delay(DELAY_TIME);
-
-    digitalWrite(R_LED, HIGH);
-    digitalWrite(G_LED, LOW);
-    digitalWrite(B_LED, HIGH);
-
-    delay(DELAY_TIME);
-
+      case 5:   // red blue ON
+        digitalWrite(R_LED, HIGH);
+        digitalWrite(G_LED, LOW);
+        digitalWrite(B_LED, HIGH);
+        break;
   }
-  
+
+    state++;    // increment state to iterate through cases
+    if (state > 5) {  // once the state reaches past 5
+      state = 0;       // begin sequence again to start case at state 0
+  }
+    delay(DELAY_TIME);  // delay each LED by delay_time
+  }
   else {
-    // turn all LEDs off when stopped
-    digitalWrite(R_LED, LOW);
-    digitalWrite(G_LED, LOW);
-    digitalWrite(B_LED, LOW);
+    state = 0;    // once button is pressed again to stop sequence, and then pressed to start again, sequence
+                  // starts from beginning
   }
 }
-
-// added interrupt to stop the program while in the middle if the button is pressed again
-void buttonPress(){
-  unsigned long t = millis();       // debounce
-  if (t - toggleTime > 200) {
-    running = !running;             // toggle state to turn button pin off
-    toggleTime = t;
-  }
-}
-
