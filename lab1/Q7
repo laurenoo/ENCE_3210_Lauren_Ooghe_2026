@@ -1,0 +1,118 @@
+// Lab 1 - Q7 - Lauren Ooghe
+// LED calculator - Using red, green, and blue LEDs
+
+#define N 10
+
+// assign LED pin numbers
+int R_LED = 5;
+int G_LED = 4;
+int B_LED = 11;
+// assign buttons (1 selection button and 1 execution button)
+int BTN_SEL = 2;
+int BTN_EXE = 3;
+
+// Create two arrays with integers, and one empty to store the results of arithmetic operations
+int num1[N] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+int num2[N] = {2, 3, 4, 1, 5, 8, 7, 9, 4, 5};
+long result[N];
+
+int operation = 0;  // mode that will be assign either 1, 2, or 3. Used as a counter in a way to select what math operation to use.
+bool lastSel = HIGH;    // variable created for comparison of the last button selection pressed and the current
+bool lastOp = HIGH;    // variable created for comparison of the last button execution pressed and the current
+unsigned long lastSTime = 0;  // time that the last selec button pressed
+unsigned long lastETime = 0;  // time that the last execution button pressed
+const unsigned long debounce = 150;  // debouncer delay so that it won't count the debounce as a press that naturally happens with buttons
+
+// this function (8-bit unsigned data type) creates 5 rows and 3 columns of LED patterns
+// when invoking this funct. inside of the setLED, it will use the row and column input to write the LEDs to the appropriate setting
+const byte ledPatt[5][3] = {
+  {0,0,0},  // all LEDs off
+  {1,0,0},  // addition red LED
+  {0,1,0},  // subtraction green LED
+  {0,0,1},  // multiplication blue LED
+  {1,1,1}   // operation done, all LEDs on
+};
+
+// function invoked to set LEDs to a given value by using the ledPatt function
+void setLED(int mode) {
+  digitalWrite(R_LED, ledPatt[mode][0]);
+  digitalWrite(G_LED, ledPatt[mode][1]);
+  digitalWrite(B_LED, ledPatt[mode][2]);
+}
+
+void setup() {
+  Serial.begin(9600);    // begin Serial monitoring
+// set pins to input/outputs
+  pinMode(R_LED, OUTPUT);    
+  pinMode(G_LED, OUTPUT);
+  pinMode(B_LED, OUTPUT);
+  
+  pinMode(BTN_SEL, INPUT_PULLUP);  // starts HIGH
+  pinMode(BTN_EXE, INPUT_PULLUP);  // starts HIGH
+
+  setLED(0);  // turn all LEDs off
+}
+
+// function created to debounce buttons
+bool edgeDebounced(int pin, bool &lastState, unsigned long &lastTime) {
+  bool current = digitalRead(pin);  // read the current state of a given button
+
+// if the last state
+  if (lastState == HIGH && current == LOW) {
+    if (millis() - lastTime > debounce) {    // simple debouncer - takes current time - the last time button pressed and
+                                            //  makes sure it's greater than the debounce time set (150ms) so that it doensn't count 1 press multiple times
+      lastTime = millis();    // if condition is met, reset the last time to the current time
+      lastState = current;  // and the last state to the current state
+      return true;          // return true if conditions are met
+    }
+  }
+  lastState = current;    // if conditions are not met, still set last time to current time but return false
+  return false;
+}
+
+// write a fucntion that does the math (add, subtract, multiply) of two given elements x and y (arrays)
+long arithmetic(int x, int y, int operation) {
+  switch (operation) {
+    case 1: return (long)x + (long)y; // addition
+    case 2: return (long)x - (long)y; // subtraction
+    case 3: return (long)x * (long)y; // multiplication
+    default: return 0;
+  }
+}
+
+void loop() {
+ if (edgeDebounced(BTN_SEL, lastSel, lastSTime)) {    // invoke debounce function, and only contin. if true
+    operation++;                                      // if true, increment the operation
+    if (operation > 3) operation = 0;                 // if user presses operation button more than three times, reset to 0
+    setLED(operation);                                // invoke setLED function to output appropriate LED
+
+
+    if (operation==1){                      
+      Serial.println("Addition");
+    }
+    if (operation > 1 && operation < 3){
+      Serial.println("Subtraction");
+    }
+    if (operation > 2 && operation == 3){
+      Serial.println("Multiplication");
+    }
+  }
+
+  if(edgeDebounced(BTN_EXE, lastOp, lastETime)) {
+    if(operation == 0) {
+      Serial.print("No input received. Try again. ");
+      return;
+    }
+    setLED(0);
+
+    for (int i = 0; i < N; i++) {
+      result[i] = arithmetic(num1[i], num2[i], operation);
+    }
+    setLED(4); // all LEDs on, when program is done
+
+    Serial.println("Results: ");
+    for (int i = 0; i < N; i++) {
+      Serial.println(result[i]);
+    }
+}
+}
