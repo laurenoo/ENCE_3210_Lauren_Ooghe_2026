@@ -86,7 +86,7 @@ void loop() {
     if (operation > 3) operation = 0;                 // if user presses operation button more than three times, reset to 0
     setLED(operation);                                // invoke setLED function to output appropriate LED
 
-
+// print operation that is happening
     if (operation==1){                      
       Serial.println("Addition");
     }
@@ -98,21 +98,21 @@ void loop() {
     }
   }
 
-  if(edgeDebounced(BTN_EXE, lastOp, lastETime)) {
-    if(operation == 0) {
+  if(edgeDebounced(BTN_EXE, lastOp, lastETime)) {      // if debounce is true for execution button
+    if(operation == 0) {                               // if operation is at 0, no input was received and set LEDs off
       Serial.print("No input received. Try again. ");
       return;
     }
-    setLED(0);
+    setLED(0);      // LEDs off, no input received
 
-    for (int i = 0; i < N; i++) {
-      result[i] = arithmetic(num1[i], num2[i], operation);
+    for (int i = 0; i < N; i++) {                      // for loop to iterate through both arrays, and invoke math function 
+      result[i] = arithmetic(num1[i], num2[i], operation);  // and saves values into the results array
     }
-    setLED(4); // all LEDs on, when program is done
+    setLED(4); // all LEDs on, when program is done      // after execution, set all LEDs to on to show operation has been complete
 
-    Serial.println("Results: ");
-    for (int i = 0; i < N; i++) {
-      Serial.println(result[i]);
+    Serial.println("Results: ");      // print the values individually in the results array 
+    for (int i = 0; i < N; i++) {      // for loop iterates through every index in results array and 
+      Serial.println(result[i]);      // prints value at that index
     }
 }
 }
