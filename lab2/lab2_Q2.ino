@@ -1,6 +1,7 @@
 // Lab 2 - Q7 - Lauren Ooghe 
 // When the button is pressed, turn on the red, green, and blue color LEDs with the following order:
 // R – RG – RGB – GB – B – RB repeated until the button is pressed again.
+// using an interrupt 
 
 // define global variables
 #define DELAY_TIME 500
