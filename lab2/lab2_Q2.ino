@@ -1,0 +1,94 @@
+// Lab 2 - Q7 - Lauren Ooghe 
+// When the button is pressed, turn on the red, green, and blue color LEDs with the following order:
+// R – RG – RGB – GB – B – RB repeated until the button is pressed again.
+
+// define global variables
+#define DELAY_TIME 500
+
+
+// assign pins to LEDs
+int R_LED = 5;
+int G_LED = 4;
+int B_LED = 11;
+int button = 3;
+
+volatile unsigned char gFlag_1 = 0;
+
+int state = 0;    // intialize state for switch statement
+
+void setup() {
+// assign pins as INPUT or OUTPUT
+pinMode(R_LED, OUTPUT);
+pinMode(G_LED, OUTPUT);
+pinMode(B_LED, OUTPUT);
+pinMode(button, INPUT); 
+
+attachInterrupt(digitalPinToInterrupt(button), isrButton1, FALLING);    // add interrupt so when button is pressed
+
+}
+
+void loop() {
+  // initiate all LEDs off 
+  digitalWrite(R_LED, LOW);
+  digitalWrite(G_LED, LOW);
+  digitalWrite(B_LED, LOW);
+
+// only run when the interrupt is equal to 1 (gets called in interrupt statement isrButton1)
+  if (gFlag_1 == 1){  
+
+// use case statements to iterate through LED sequence
+    switch (state) {
+
+     case 0:   // red ON
+        digitalWrite(R_LED, HIGH);
+        digitalWrite(G_LED, LOW);
+        digitalWrite(B_LED, LOW);
+        break;
+
+      case 1:   // red green ON
+        digitalWrite(R_LED, HIGH);
+        digitalWrite(G_LED, HIGH);
+        digitalWrite(B_LED, LOW);
+        break;
+
+      case 2:   // red green blue ON
+        digitalWrite(R_LED, HIGH);
+        digitalWrite(G_LED, HIGH);
+        digitalWrite(B_LED, HIGH);
+        break;
+
+      case 3:   // green blue ON
+        digitalWrite(R_LED, LOW);
+        digitalWrite(G_LED, HIGH);
+        digitalWrite(B_LED, HIGH);
+        break;
+
+      case 4:   // blue ON
+        digitalWrite(R_LED, LOW);
+        digitalWrite(G_LED, LOW);
+        digitalWrite(B_LED, HIGH);
+        break;
+
+      case 5:   // red blue ON
+        digitalWrite(R_LED, HIGH);
+        digitalWrite(G_LED, LOW);
+        digitalWrite(B_LED, HIGH);
+        break;
+  }
+
+    state++;    // increment state to iterate through cases
+    if (state > 5) {  // once the state reaches past 5
+      state = 0;       // begin sequence again to start case at state 0
+  }
+    delay(DELAY_TIME);  // delay each LED by delay_time
+  }
+  else {
+    state = 0;    // once button is pressed again to stop sequence, and then pressed to start again, sequence
+                  // starts from beginning
+  } 
+}
+void isrButton1 (){     // interrupt function to toggle the value of the flag, stops or runs 
+  gFlag_1 = !gFlag_1;
+}
+
+
