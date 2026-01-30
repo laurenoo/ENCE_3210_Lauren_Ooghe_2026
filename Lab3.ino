@@ -4,8 +4,8 @@
 // assign LED pins
 # define R_LED 5
 # define G_LED 4
-# define TIMER_COMPARE_VALUE_1 31249  // see README.md file for breakdown
-# define TIMER_COMPARE_VALUE_2 155    // see README.md file for breakdown
+# define TIMER_COMPARE_VALUE_1 31249
+# define TIMER_COMPARE_VALUE_2 155   
 
 // array to print greetings in different languages for fun
 const char* greetings[] = {
