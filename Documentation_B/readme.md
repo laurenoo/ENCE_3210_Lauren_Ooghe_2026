@@ -1,4 +1,4 @@
-**** SEE PCB_V1 FOR COMPLETED PROJECT CONTENTS ****
+**** SEE PCB_V1 FOLDER FOR COMPLETED PROJECT CONTENTS ****
 
 
 4-bit DAC was created on the breadboard to simulate output response to a given digital input. 
