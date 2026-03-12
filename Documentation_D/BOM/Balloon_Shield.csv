@@ -1,0 +1,12 @@
+"Id";"Designator";"Footprint";"Quantity";"Designation";"Supplier and ref";
+1;"J1";"PinSocket_1x08_P2.54mm_Vertical";1;"Power";;;
+2;"J3";"PinSocket_1x06_P2.54mm_Vertical";1;"Analog";;;
+3;"J2";"PinSocket_1x10_P2.54mm_Vertical";1;"Digital/PWM";;;
+4;"J4";"PinSocket_1x08_P2.54mm_Vertical";1;"Digital/PWM";;;
+5;"R6,R1,R2,R3,R5,R4";"R_Axial_DIN0204_L3.6mm_D1.6mm_P7.62mm_Horizontal";6;"R";;;
+6;"D4,D1,D2,D5,D6,D3";"LED_D5.0mm";6;"LED";;;
+7;"J7";"PinSocket_1x06_P2.54mm_Vertical";1;"Conn_01x06";;;
+8;"HDC1080";"Texas_PWSON-N6";1;"HDC1080";;;
+9;"U2";"TO-92_Inline_Wide";1;"EXT TEMP";;;
+10;"J8";"PinSocket_1x07_P2.54mm_Vertical";1;"Conn_01x07";;;
+11;"J5";"DIP-8_W7.62mm_Socket_LongPads";1;"Conn_01x04";;;
